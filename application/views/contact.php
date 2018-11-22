@@ -6,8 +6,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Globalização">
+    <meta name="description" content="<?php echo $contactMenu; ?> - <?php echo $titleMenu; ?>">
     <meta name="author" content="Eduardo Schenato dos Santos">
+    
+    <meta property="og:title" content="<?php echo $contactMenu; ?> - <?php echo $titleMenu; ?>">
+    <meta property="og:site_name" content="<?php echo $titleMenu; ?>">
+    <meta property="og:description" content="<?php echo $contactMenu; ?> - <?php echo $titleMenu; ?>">
+    <meta property="og:image" content="<?php echo base_url(); ?>public/img/home-bg.png">
+
     <title><?php echo $contactMenu; ?> - <?php echo $titleMenu; ?></title>
     <link href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>public/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -68,30 +74,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <form name="sentMessage" id="contactForm" novalidate>
+          <form name="sentMessage" id="contactForm" method="post" action="<?php echo base_url(); ?>site/send/<?php echo $lang; ?>">
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label><?php echo $name; ?></label>
-                <input type="text" class="form-control" placeholder="<?php echo $name; ?>" id="name" required data-validation-required-message="<?php echo $name; ?>">
+                <input type="text" class="form-control" placeholder="<?php echo $name; ?>" name="name" id="name" required data-validation-required-message="<?php echo $name; ?>">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label><?php echo $email; ?></label>
-                <input type="email" class="form-control" placeholder="<?php echo $email; ?>" id="email" required data-validation-required-message="<?php echo $email; ?>">
+                <input type="email" class="form-control" placeholder="<?php echo $email; ?>" name="email" id="email" required data-validation-required-message="<?php echo $email; ?>">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label><?php echo $message; ?></label>
-                <textarea rows="5" class="form-control" placeholder="<?php echo $message; ?>" id="message" required data-validation-required-message="<?php echo $message; ?>"></textarea>
+                <textarea rows="5" class="form-control" placeholder="<?php echo $message; ?>" name="message" id="message" required data-validation-required-message="<?php echo $message; ?>"></textarea>
                 <p class="help-block text-danger"></p>
               </div>
             </div>
             <br>
-            <div id="success"></div>
+            <?php if($this->session->userdata("success") !== null) { ?>
+              <div class="alert alert-success" id="success"><?php echo $this->session->userdata("success"); ?></div>
+            <?php } ?>
+            <?php if($this->session->userdata("error") !== null) { ?>
+              <div class="alert alert-danger" id="error"><?php echo $this->session->userdata("error"); ?></div>
+            <?php } ?>
             <div class="form-group">
               <button type="submit" class="btn btn-block btn-primary" id="sendMessageButton"><?php echo $send; ?></button>
             </div>
@@ -106,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="col-lg-8 col-md-10 mx-auto">
             <ul class="list-inline text-center">
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://www.instagram.com/eduschenato/">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
@@ -114,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://www.facebook.com/eduardo.schenato">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
@@ -122,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://github.com/eduardoschenato">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -138,5 +149,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url(); ?>public/js/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/clean-blog.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129701100-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-129701100-1');
+    </script>
   </body>
 </html>

@@ -25,14 +25,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <section class="container mt-5">
         <div class="row">
             <div class="col-xl-6 offset-xl-3 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1 col-12">
-                <form>
+                <?php if($this->session->userdata("success") !== null) { ?>
+                    <div class="alert alert-success" role="alert"><?php echo $this->session->userdata("success"); ?></div>
+                <?php } ?>
+                <?php if($this->session->userdata("error") !== null) { ?>
+                    <div class="alert alert-danger" role="alert"><?php echo $this->session->userdata("error"); ?></div>
+                <?php } ?>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <div class="row">
+            <div class="col-xl-6 offset-xl-3 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1 col-12">
+                <form method="post" action="<?php echo base_url(); ?>admin/login">
                     <div class="form-group">
                         <label for="login">Login</label>
-                        <input type="text" class="form-control" id="login" placeholder="Digite seu Login">
+                        <input type="text" class="form-control" name="login" id="login" placeholder="Digite seu Login">
                     </div>
                     <div class="form-group">
                         <label for="password">Senha</label>
-                        <input type="password" class="form-control" id="password" placeholder="Digite sua Senha">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Digite sua Senha">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">Entrar</button>

@@ -49,6 +49,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+
+$route['default_controller'] = 'site/home';
+
 // PT
 $route['pt/home'] = 'site/home/pt';
 $route['pt/about'] = 'site/about/pt';
@@ -96,6 +99,3 @@ $route['ge/contact'] = 'site/contact/ge';
 $route['ge/map'] = 'site/map/ge';
 $route['ge/references'] = 'site/references/ge';
 $route['ge/post/(:num)'] = 'site/post/ge/$1';
-
-
-$route['default_controller'] = 'site/home/pt';

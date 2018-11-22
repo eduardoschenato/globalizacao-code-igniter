@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">Globalização</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a class="nav-link" href="<?php echo base_url(); ?>admin//home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url(); ?>admin/list">Listagem</a>
+                        <a class="nav-link" href="<?php echo base_url(); ?>admin/posts">Listagem</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url(); ?>admin/form">Cadastro</a>
@@ -49,38 +49,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <section class="container mt-5">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <form>
+                <?php if($this->session->userdata("success") !== null) { ?>
+                    <div class="alert alert-success" role="alert"><?php echo $this->session->userdata("success"); ?></div>
+                <?php } ?>
+                <?php if($this->session->userdata("error") !== null) { ?>
+                    <div class="alert alert-danger" role="alert"><?php echo $this->session->userdata("error"); ?></div>
+                <?php } ?>
+                <form method="post" action="<?php echo base_url(); ?>admin/save">
+                    <input type="hidden" name="id" id="id" value="<?php echo (isset($post)) ? $post["id"] : 0; ?>">
                     <div class="form-row">
                         <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                             <label for="language_id">Idioma</label>
-                            <select class="form-control" id="language_id">
+                            <select class="form-control" name="language_id" id="language_id">
                                 <?php foreach($languages as $language) { ?>
-                                    <option value="<?php echo $language["id"]; ?>"><?php echo $language["name"]; ?></option>
+                                    <?php if(isset($post) && $post["language_id"] == $language["id"]) { ?>
+                                        <option value="<?php echo $language["id"]; ?>" selected><?php echo $language["name"]; ?></option>
+                                    <?php } else { ?>
+                                        <option value="<?php echo $language["id"]; ?>"><?php echo $language["name"]; ?></option>
+                                    <?php } ?>
                                 <?php } ?>
                             </select>
                         </div>
                         <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                             <label for="author">Autor</label>
-                            <input type="text" class="form-control" id="author" placeholder="Digite o nome do autor">
+                            <input type="text" class="form-control" name="author" id="author" placeholder="Digite o nome do autor" value="<?php echo (isset($post)) ? $post["author"] : ""; ?>">
                         </div>
                         <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
                             <label for="date">Data</label>
-                            <input type="text" class="form-control" id="date" placeholder="Digite a data no formato DD/MM/AAAA">
+                            <input type="text" class="form-control" name="date" id="date" placeholder="Digite a data no formato DD/MM/AAAA" value="<?php echo (isset($post)) ? getDateShowFormat($post["date"]) : ""; ?>">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                             <label for="title">Título</label>
-                            <input type="text" class="form-control" id="title" placeholder="Digite o título da postagem">
+                            <input type="text" class="form-control" name="title" id="title" placeholder="Digite o título da postagem" value="<?php echo (isset($post)) ? $post["title"] : ""; ?>">
                         </div>
                         <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                             <label for="subtitle">Subtítulo</label>
-                            <input type="text" class="form-control" id="subtitle" placeholder="Digite o subtítulo da postagem">
+                            <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="Digite o subtítulo da postagem" value="<?php echo (isset($post)) ? $post["subtitle"] : ""; ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="text">Texto</label>
-                        <textarea class="form-control" id="text" rows="10" placeholder="Digite o texto da postagem"></textarea>
+                        <textarea class="form-control" name="text" id="text" rows="10" placeholder="Digite o texto da postagem"><?php echo (isset($post)) ? $post["text"] : ""; ?></textarea>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-success">Salvar</button>

@@ -6,8 +6,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Globalização">
+    <meta name="description" content="<?php echo $aboutMenu; ?> - <?php echo $titleMenu; ?>">
     <meta name="author" content="Eduardo Schenato dos Santos">
+    
+    <meta property="og:title" content="<?php echo $aboutMenu; ?> - <?php echo $titleMenu; ?>">
+    <meta property="og:site_name" content="<?php echo $titleMenu; ?>">
+    <meta property="og:description" content="<?php echo $aboutMenu; ?> - <?php echo $titleMenu; ?>">
+    <meta property="og:image" content="<?php echo base_url(); ?>public/img/home-bg.png">
+
     <title><?php echo $aboutMenu; ?> - <?php echo $titleMenu; ?></title>
     <link href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>public/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -80,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="col-lg-8 col-md-10 mx-auto">
             <ul class="list-inline text-center">
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://www.instagram.com/eduschenato/">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
@@ -88,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://www.facebook.com/eduardo.schenato">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
@@ -96,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="https://github.com/eduardoschenato">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -112,5 +118,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url(); ?>public/js/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/clean-blog.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129701100-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-129701100-1');
+    </script>
   </body>
 </html>

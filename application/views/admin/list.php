@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">Globalização</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a class="nav-link" href="<?php echo base_url(); ?>admin//home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url(); ?>admin/list">Listagem</a>
+                        <a class="nav-link" href="<?php echo base_url(); ?>admin/posts">Listagem</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url(); ?>admin/form">Cadastro</a>
@@ -52,27 +52,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <ul class="nav nav-pills mt-3">
                     <?php if($lang == "") { ?>
                         <li class="nav-item">
-                            <a class="nav-link active" href="<?php echo base_url(); ?>admin/list">Todos</a>
+                            <a class="nav-link active" href="<?php echo base_url(); ?>admin/posts">Todos</a>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo base_url(); ?>admin/list">Todos</a>
+                            <a class="nav-link" href="<?php echo base_url(); ?>admin/posts">Todos</a>
                         </li>
                     <?php } ?>
                     <?php foreach($languages as $language) { ?>
                         <?php if($language["prefix"] == $lang) { ?>
                         <li class="nav-item">
-                            <a class="nav-link active" href="<?php echo base_url(); ?>admin/list/<?php echo $language["prefix"]; ?>"><?php echo $language["name"]; ?></a>
+                            <a class="nav-link active" href="<?php echo base_url(); ?>admin/posts/<?php echo $language["prefix"]; ?>"><?php echo $language["name"]; ?></a>
                         </li>
                         <?php } else { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo base_url(); ?>admin/list/<?php echo $language["prefix"]; ?>"><?php echo $language["name"]; ?></a>
+                            <a class="nav-link" href="<?php echo base_url(); ?>admin/posts/<?php echo $language["prefix"]; ?>"><?php echo $language["name"]; ?></a>
                         </li>
                         <?php } ?>
                     <?php } ?>
                 </ul>
             </div>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="mt-3">
+                    <?php if($this->session->userdata("success") !== null) { ?>
+                        <div class="alert alert-success" role="alert"><?php echo $this->session->userdata("success"); ?></div>
+                    <?php } ?>
+                    <?php if($this->session->userdata("error") !== null) { ?>
+                        <div class="alert alert-danger" role="alert"><?php echo $this->session->userdata("error"); ?></div>
+                    <?php } ?>
+                </div>
                 <table class="table table-striped table-bordered table-condensed mt-3">
                     <thead>
                         <tr>
@@ -91,23 +99,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <td><?php echo getDateShowFormat($post["date"]); ?></td>
                                 <td><?php echo $post["author"]; ?></td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-info">Editar</a>
-                                    <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                                    <a href="<?php echo base_url(); ?>admin/form/<?php echo $post["id"]; ?>" class="btn btn-sm btn-info">Editar</a>
+                                    <button type="button" onclick="deleteItem(<?php echo $post['id']; ?>)" class="btn btn-sm btn-danger">Excluir</button>
                                 </td>
                             </tr>
                         <?php } ?>
                     </thead>
                 </table>
             </div>
-            <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <nav class="mt-3">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    </ul>
-                </nav>
-            </div> -->
         </div>
     </section>
     <footer class="container mt-5">
@@ -119,5 +118,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </footer>
     <script src="<?php echo base_url(); ?>public/js/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function deleteItem(id) {
+            if(confirm("Deseja realmente excluir este registro?")) {
+                window.location.href = "<?php echo base_url(); ?>admin/remove/" + id;
+            }
+        }
+    </script>
   </body>
 </html>

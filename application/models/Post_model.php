@@ -19,4 +19,17 @@ class Post_model extends CI_Model {
         ))->row_array();
     }
 
+    public function insert($post) {
+        $this->db->insert("posts", $post);
+    }
+
+    public function update($post, $id) {
+        $this->db->update("posts", $post, array("id" => $id));
+    }
+
+    public function delete($id) {
+        $this->db->where("id", $id);
+        $this->db->delete("posts");
+    }
+
 }
