@@ -33,6 +33,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a class="nav-link" href="<?php echo base_url(); ?>admin/form">Cadastro</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="<?php echo base_url(); ?>admin/contacts">Contatos do Site</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url(); ?>admin/logout">Sair</a>
                     </li>
                 </ul>

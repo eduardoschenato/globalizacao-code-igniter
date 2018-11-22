@@ -45,20 +45,19 @@ class Site extends CI_Controller {
 	}
 
 	public function map($lang) {
-		/*
-		require_once("gapi.class.php");
-		$ga = new gapi("globalizacaotrabalhots@gmail.com", "ads2018IFRS");
+		// require_once("gapi.class.php");
+		// $ga = new gapi("globalizacaotrabalhots@gmail.com", "api-analytics-globalizacao-68b14d980084.p12");
 
-		$ga->requestReportData(185454076, "country", "visits");
+		// $ga->requestReportData(185454076, "country", "visits");
 
-		foreach($ga->getResults() as $result)
-		{
-		echo '<strong>'.$result.'</strong><br />';
-		echo 'Visits: ' . $result->getVisits() . '<br />';
-		}
+		// foreach($ga->getResults() as $result)
+		// {
+		// echo '<strong>'.$result.'</strong><br />';
+		// echo 'Visits: ' . $result->getVisits() . '<br />';
+		// }
 
-		echo '<p>Total pageviews: ' . $ga->getPageviews() . ' total visits: ' . $ga->getVisits() . '</p>';
-		*/
+		// echo '<p>Total pageviews: ' . $ga->getPageviews() . ' total visits: ' . $ga->getVisits() . '</p>';
+		// die;
 
 		$this->load->model("language_model");
 		$languages = $this->language_model->getAll();
@@ -124,6 +123,7 @@ class Site extends CI_Controller {
 
 	public function send($lang) {
 		$this->load->library("email");
+		$this->load->model("contact_model");
 
 		$this->form_validation->set_rules("name", "Nome", "trim|required|min_length[5]");
 		$this->form_validation->set_rules("email", "E-Mail", "required|valid_email");
@@ -133,24 +133,33 @@ class Site extends CI_Controller {
 		$sucesso = $this->form_validation->run();
 
 		if($sucesso) {
-			$config["protocol"] = "mail";
+			$contact = array(
+				"name" => $this->input->post("name"),
+				"email" => $this->input->post("email"),
+				"message" => $this->input->post("message")
+			);
+
+			$retorno = $this->contact_model->insert($contact);
+
+			// E-Mail
+			$config["protocol"] = "smtp";
 			$config["smtp_host"] = "ssl://smtp.gmail.com";
-			$config["smtp_user"] = "webmaster@globalizacao.epizy.com";
-			$config["smtp_pass"] = "KBXEakgUMB7Qsvq";
+			$config["smtp_user"] = "globalizacaotrabalhots@gmail.com";
+			$config["smtp_pass"] = "ads2018IFRS";
 			$config["charset"] = "utf-8";
 			$config["mailtype"] = "html";
 			$config["newline"] = "\r\n";
 			$this->email->initialize();
 
 			$dados = array(
-				"nome" => $this->input->post("nome"),
+				"nome" => $this->input->post("name"),
 				"email" => $this->input->post("email"),
-				"mensagem" => $this->input->post("mensagem")
+				"mensagem" => $this->input->post("message")
 			);
 
 			$conteudo = $this->load->view("email.php", $dados, true);
 
-			$this->email->from("webmaster@globalizacao.epizy.com", "Site Globalização");
+			$this->email->from("globalizacaotrabalhots@gmail.com", "Site Globalização");
 			$this->email->to("globalizacaotrabalhots@gmail.com");
 			$this->email->subject("Contato Site Globalização");
 			$this->email->message($conteudo);

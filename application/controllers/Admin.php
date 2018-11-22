@@ -121,7 +121,7 @@ class Admin extends CI_Controller {
 		
 		if($user) {
 			$this->session->set_userdata("user", $user);	
-			redirect("admin/posts");
+			redirect("admin/home");
 		} else {
 			redirect("admin/index");	
 		}
@@ -131,6 +131,53 @@ class Admin extends CI_Controller {
 		$this->session->unset_userdata("user");
 		$this->session->set_flashdata("success", "Deslogado com sucesso!");
 		redirect("admin/index");
+	}
+
+	public function contacts($lang = "") {
+		authorizate();
+
+		$this->load->model("language_model");
+		$this->load->model("contact_model");
+
+		$languages = $this->language_model->getAll();
+		$contacts = $this->contact_model->getAll();
+
+		$dados = array(
+			"languages" => $languages,
+			"contacts" => $contacts,
+			"lang" => $lang
+		);
+
+		$this->load->view('admin/listcontacts', $dados);
+	}
+
+	public function contactDetail($id = 0) {
+		authorizate();
+
+		$this->load->model("language_model");
+		$this->load->model("contact_model");
+
+		$languages = $this->language_model->getAll();
+		$contact = $this->contact_model->getById($id);
+
+		$dados = array(
+			"languages" => $languages,
+			"contact" => $contact
+		);
+
+		$this->load->view('admin/contactdetail', $dados);
+	}
+
+	public function removeContact($id) {
+		authorizate();
+
+		$this->load->model("contact_model");
+
+		$retorno = $this->contact_model->delete($id);
+		
+		$this->session->set_flashdata("success", "Removido com sucesso!");
+
+		redirect("admin/contacts");
 	}
 
 }

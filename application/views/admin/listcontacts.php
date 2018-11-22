@@ -45,13 +45,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <header class="container mt-5">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="jumbotron">
-                    <h1>Bem-vindo ao Painel de Administração!</h1>
-                    <p class="lead">Navegue no menu superior para acessar aos módulos.</p>
-                </div>
+                <h1>Contatos do Site</h1>
             </div>
         </div>
     </header>
+    <section class="container mt-5">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="mt-3">
+                    <?php if($this->session->userdata("success") !== null) { ?>
+                        <div class="alert alert-success" role="alert"><?php echo $this->session->userdata("success"); ?></div>
+                    <?php } ?>
+                    <?php if($this->session->userdata("error") !== null) { ?>
+                        <div class="alert alert-danger" role="alert"><?php echo $this->session->userdata("error"); ?></div>
+                    <?php } ?>
+                </div>
+                <table class="table table-striped table-bordered table-condensed mt-3">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>E-Mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($contacts as $contact) { ?>
+                            <tr>
+                                <td><?php echo $contact["id"]; ?></td>
+                                <td><?php echo $contact["name"]; ?></td>
+                                <td><?php echo $contact["email"]; ?></td>
+                                <td>
+                                    <a href="<?php echo base_url(); ?>admin/contactDetail/<?php echo $contact["id"]; ?>" class="btn btn-sm btn-info">Visualizar</a>
+                                    <button type="button" onclick="deleteItem(<?php echo $contact['id']; ?>)" class="btn btn-sm btn-danger">Excluir</button>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </section>
     <footer class="container mt-5">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -61,5 +95,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </footer>
     <script src="<?php echo base_url(); ?>public/js/jquery.min.js"></script>
     <script src="<?php echo base_url(); ?>public/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function deleteItem(id) {
+            if(confirm("Deseja realmente excluir este registro?")) {
+                window.location.href = "<?php echo base_url(); ?>admin/removeContact/" + id;
+            }
+        }
+    </script>
   </body>
 </html>
